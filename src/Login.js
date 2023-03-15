@@ -3,11 +3,10 @@
 import "./Login.css";
 
 import React, { useState } from "react";
-import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
-import { auth } from "./Firebase";
+import { auth } from "./firebase";
 
-function Login() {
+function Login(props) {
   // initialize form data
   const [showSignUp, setShowSignUp] = useState(false);
   const [email, setEmail] = useState("");
@@ -23,12 +22,12 @@ function Login() {
 
   // call to fire base to attempt a sign in
   const handleSignIn = () => {
-    firebase
-      .auth()
+    auth
       .signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
+        props.updateUser(user);
         console.log(user);
       })
       .catch((error) => {
@@ -40,8 +39,7 @@ function Login() {
 
   // attempt a log in
   const handleSignUp = () => {
-    firebase
-      .auth()
+    auth
       .createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
         // User created
@@ -101,6 +99,7 @@ function Login() {
           {/* buttons */}
           <button
             onClick={(e) => {
+              // temporary prevent default so we can get things set up
               e.preventDefault();
               handleSignUp();
             }}
@@ -137,7 +136,15 @@ function Login() {
           </div>
 
           {/* buttons */}
-          <button onClick={handleSignIn}>Sign In</button>
+          <button
+            onClick={(e) => {
+              // temporary prevent default
+              e.preventDefault();
+              handleSignIn();
+            }}
+          >
+            Sign In
+          </button>
 
           {/* sign link */}
           <span onClick={toggle}>create account</span>

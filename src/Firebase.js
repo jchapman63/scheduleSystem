@@ -3,7 +3,7 @@
 // import { getAnalytics } from "firebase/analytics";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
-import "firebase/compat/database";
+import "firebase/compat/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -25,4 +25,4 @@ firebase.initializeApp(firebaseConfig);
 
 // make auth object and database viewable to other files.
 export const auth = firebase.auth();
-export const database = firebase.database();
+export const database = firebase.firestore();

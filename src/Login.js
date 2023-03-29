@@ -16,8 +16,6 @@ function Login(props) {
   // toggles which form is being shown
   function toggle() {
     setShowSignUp(!showSignUp);
-    console.log("function called");
-    console.log(showSignUp);
   }
 
   // call to fire base to attempt a sign in
@@ -28,7 +26,6 @@ function Login(props) {
         // Signed in
         const user = userCredential.user;
         props.updateUser(user);
-        console.log(user);
       })
       .catch((error) => {
         const errorCode = error.code;

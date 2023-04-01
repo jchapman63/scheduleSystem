@@ -26,59 +26,59 @@ async function exampleData() {
   let schedules = [];
 
   // adding an item to the database
-  database
-    .collection("schedules")
-    .add(scheduleData)
-    .then((docRef) => {
-      console.log("added a schedule with the ID: ", docRef.id);
-    })
-    .catch((error) => {
-      console.log("Error adding schedule: ", error);
-    });
+  // database
+  //   .collection("schedules")
+  //   .add(scheduleData)
+  //   .then((docRef) => {
+  //     console.log("added a schedule with the ID: ", docRef.id);
+  //   })
+  //   .catch((error) => {
+  //     console.log("Error adding schedule: ", error);
+  //   });
 
-  // retrieving all of the collection
-  await database
-    .collection("schedules")
-    .get()
-    .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        // print to check doc data with id
-        // console.log(doc.id, " => ", doc.data);
+  // // retrieving all of the collection
+  // await database
+  //   .collection("schedules")
+  //   .get()
+  //   .then((querySnapshot) => {
+  //     querySnapshot.forEach((doc) => {
+  //       // print to check doc data with id
+  //       // console.log(doc.id, " => ", doc.data);
 
-        // grab the schedule data
-        const scheduleData = doc.data();
+  //       // grab the schedule data
+  //       const scheduleData = doc.data();
 
-        // checking courses exist
-        // console.log("The scheduleData", doc.data().courses);
+  //       // showing the schedule ID
+  //       // console.log("The scheduleData", doc.id);
 
-        // create new schedule from data
-        // const schedule = new Schedule(scheduleData.name, scheduleData.courses);
-        const schedule = new Schedule(scheduleData.name, []);
+  //       // create new schedule from data
+  //       // const schedule = new Schedule(scheduleData.name, scheduleData.courses);
+  //       const schedule = new Schedule(scheduleData.name, []);
 
-        // check that the object was made
-        // console.log("making sure the schedule got made", schedule);
+  //       // check that the object was made
+  //       // console.log("making sure the schedule got made", schedule);
 
-        // get courses and create them
-        scheduleData.courses.forEach((courseData) => {
-          const newCourse = new Course(
-            courseData.courseName,
-            courseData.courseCode,
-            courseData.sectionNumber,
-            courseData.creditHours,
-            courseData.meetFrequencies,
-            courseData.meetTime,
-            courseData.meetingRoom,
-            courseData.professor
-          );
-          schedule.addCourse(newCourse);
-          schedules.push(schedule);
-          // console.log("the created schedule object: ", schedules[0]);
-        });
-      });
-    })
-    .catch((error) => {
-      console.log("This error occurred grabbing documents: ", error);
-    });
+  //       // get courses and create them
+  //       scheduleData.courses.forEach((courseData) => {
+  //         const newCourse = new Course(
+  //           courseData.courseName,
+  //           courseData.courseCode,
+  //           courseData.sectionNumber,
+  //           courseData.creditHours,
+  //           courseData.meetFrequencies,
+  //           courseData.meetTime,
+  //           courseData.meetingRoom,
+  //           courseData.professor
+  //         );
+  //         schedule.addCourse(newCourse);
+  //         schedules.push(schedule);
+  //         // console.log("the created schedule object: ", schedules[0]);
+  //       });
+  //     });
+  //   })
+  //   .catch((error) => {
+  //     console.log("This error occurred grabbing documents: ", error);
+  //   });
 }
 
 export default exampleData;

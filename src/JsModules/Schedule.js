@@ -9,7 +9,18 @@ class Schedule {
   }
 
   addCourse(course) {
-    this.courses.push(course);
+    let doesExist = false;
+    for (var i = 0; i < this.courses.length; i++) {
+      if (this.courses[i].courseCode === course.courseCode) {
+        doesExist = true;
+        break;
+      }
+    }
+    if (doesExist) {
+      console.log("course exists");
+    } else {
+      this.courses.push(course);
+    }
   }
 
   removeCourse(course) {
@@ -17,6 +28,11 @@ class Schedule {
     if (index > -1) {
       this.courses.splice(index, 1);
     }
+  }
+
+  // leaving out of "toObject" for now.  My hunch is that  I won't need it there.
+  createID(id) {
+    this.id = id;
   }
 
   toObject() {

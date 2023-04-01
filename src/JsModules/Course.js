@@ -6,7 +6,7 @@ class Course {
     creditHours,
     meetFrequencies,
     meetTime,
-    meetingRoom,
+    meetRoom,
     professor
   ) {
     this.courseName = courseName;
@@ -15,7 +15,7 @@ class Course {
     this.creditHours = creditHours;
     this.meetFrequencies = meetFrequencies;
     this.meetTime = meetTime;
-    this.meetingRoom = meetingRoom;
+    this.meetRoom = meetRoom;
     this.professor = professor;
   }
 
@@ -43,8 +43,8 @@ class Course {
     this.meetTime = time;
   }
 
-  updateMeetingRoom(room) {
-    this.meetingRoom = room;
+  updateMeetRoom(room) {
+    this.meetRoom = room;
   }
 
   updateProfessor(professor) {
@@ -59,7 +59,7 @@ class Course {
       creditHours: this.creditHours,
       meetFrequencies: this.meetFrequencies,
       meetTime: this.meetTime,
-      meetRoom: this.meetingRoom,
+      meetRoom: this.meetRoom,
       professor: this.professor,
     };
   }

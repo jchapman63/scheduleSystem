@@ -1,0 +1,8 @@
+.scheduler-container {
+    width: 100%;
+}
+.scheduler-splitter {
+    display: grid;
+    grid-template-columns: 80% 20%;
+    width: 100%;
+}

@@ -1,15 +1,48 @@
-import exampleData from "../referenceCode/DBUPDATE";
+// css
+import "./componentStyles/scheduler.css";
+
+// models
 import AppModel from "../JsModules/AppModel";
-import Schedule from "../JsModules/Schedule";
-import Course from "../JsModules/Course";
+// import Schedule from "../JsModules/Schedule";
+// import Course from "../JsModules/Course";
+
+// components
 import Calendar from "./Calendar";
 import ScheduleList from "./ScheduleList";
+
+// react modules
 import { useState, useEffect } from "react";
 
 function Scheduler() {
-  const [app, updateApp] = useState(new AppModel());
+  // to be set in useEffect on component mount
+  const [app, setApp] = useState(null);
 
-  const [currentSchedule, setCurrentSchedule] = useState(app.schedules[0]);
+  // to be set from ScheduleList
+  const [currentSchedule, setCurrentSchedule] = useState(null);
+
+  // updated after model is created
+  const [isLoading, setIsLoading] = useState(true);
+
+  // generate the model data on load
+  useEffect(() => {
+    // asynchronous data collection from AppModel
+    const loadData = async () => {
+      // new Model
+      const model = new AppModel();
+
+      // call helper here, not in AppModel constructor
+      await model._generateSchedules();
+
+      // update state
+      setApp(model);
+
+      // should probably change this later
+      // setCurrentSchedule(model.schedules[0]);
+      setIsLoading(false);
+    };
+
+    loadData();
+  }, []);
 
   // grab a schedule id to change state
   const changeScheduleById = (id) => {
@@ -17,101 +50,20 @@ function Scheduler() {
     setCurrentSchedule(newSchedule);
   };
 
-  // works
-  const testCreateSchedule = () => {
-    var schedule = new Schedule("Physics Department");
-
-    // make a course for the schedule
-    var course = new Course(
-      "Phys202",
-      "Phys202",
-      "01",
-      "4.0",
-      "M W F",
-      "4:00PM",
-      "Batelle 102",
-      "Dr. Arrey"
-    );
-
-    // add a course to the schedule
-    schedule.addCourse(course);
-
-    // add the schedule to the app, and consequently the database
-    app.addSchedule(schedule);
-  };
-
-  // works
-  const testAddCourseToSchedule = () => {
-    // test adding to the existing schedule
-    const schedID = app.schedules[0].id;
-
-    // check ID exists
-    // console.log(schedID);
-    var course = new Course(
-      "Math202",
-      "MTH202",
-      "01",
-      "4.0",
-      "M W F",
-      "3:00PM",
-      "Batelle 102",
-      "Dr. Arrey"
-    );
-    // var schedule = new Schedule("Math Department");
-    // schedule.addCourse(course);
-
-    if (schedID) {
-      // check that schedule can be grabbed
-      var schedule = app.getScheduleById(schedID);
-
-      // before add
-      // console.log("courses from before", schedule.courses.length);22
-
-      // log to check schedule grabbed
-      // console.log("grabbed by ID", schedule.name);
-
-      // add the course to the schedule
-      schedule.addCourse(course);
-
-      // check that schedule has the new course, also reference the database to see if it is there
-      // console.log("Local Schedule should have added course", schedule.courses);
-
-      // send updated schedule to the database
-      app.updateSchedule(schedID, schedule);
-    }
-  };
-
-  // test remove course from schedule.
-  // works
-  const testRemoveCourseFromSchedule = () => {
-    const scheduleID = app.schedules[0].id;
-
-    if (scheduleID) {
-      var schedule = app.getScheduleById(scheduleID);
-
-      // grab index to remove
-      var index = 0;
-      for (var i = 0; i < schedule.courses.length; i++) {
-        var course = schedule.courses[i];
-        if (course.courseCode === "Phys202") {
-          schedule.courses.splice(index, 1);
-          console.log("removed successfully");
-        }
-        index++;
-      }
-
-      // update schedule
-      app.updateSchedule(scheduleID, schedule);
-    }
-  };
   return (
-    <div className="scheduler">
-      <Calendar />
-      <ScheduleList
-        schedules={app.schedules}
-        changeScheduleById={changeScheduleById}
-      />
-      <button onClick={testRemoveCourseFromSchedule}>generate data</button>
+    <div className="scheduler-container">
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <div className="scheduler-splitter">
+          <Calendar currentSchedule={currentSchedule} />
+          <ScheduleList
+            schedules={app.schedules}
+            changeScheduleById={changeScheduleById}
+          />
+          <button onClick={app.logScheduleData}>generate data</button>
+        </div>
+      )}
     </div>
   );
 }

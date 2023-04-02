@@ -11,7 +11,7 @@ import { database } from "../firebase";
 class AppModel {
   constructor() {
     this.schedules = [];
-    this._generateSchedules();
+    //  this._generateSchedules();
   }
 
   // helper function for instantiating the AppModel
@@ -27,14 +27,14 @@ class AppModel {
 
           // grab the schedule data
           const scheduleData = doc.data();
-
+          // console.log(scheduleData);
           // checking courses exist
           // console.log("The scheduleData", doc.data());
 
           // create new schedule from data
           // const schedule = new Schedule(scheduleData.name, scheduleData.courses);
           const schedule = new Schedule(scheduleData.name, []);
-          console.log(scheduleData.courses);
+          // console.log(scheduleData.courses);
           schedule.createID(doc.id);
           // check that the object was made
           // console.log("making sure the schedule got made", schedule);
@@ -135,7 +135,7 @@ class AppModel {
   removeSchedule = (id) => {
     // still need to code
     database
-      .collection("schdules")
+      .collection("schedules")
       .doc(id)
       .delete()
       .then(() => {
@@ -153,6 +153,7 @@ class AppModel {
       console.log("current schedule: ", schedule.name);
       console.log("its courses: ", schedule.courses);
     }
+    console.log("schedules length in AppModel: ", this.schedules.length);
   };
 }
 

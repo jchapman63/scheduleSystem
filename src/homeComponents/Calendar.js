@@ -1,9 +1,13 @@
-function Calendar() {
+function Calendar(props) {
   return (
     <table>
       <thead>
         <tr>
-          <th>times</th>
+          {props.currentSchedule ? (
+            <th>{props.currentSchedule.name}</th>
+          ) : (
+            <th>Please select a schedule</th>
+          )}
           <th>Monday</th>
           <th>Tuesday</th>
           <th>Wednesday</th>

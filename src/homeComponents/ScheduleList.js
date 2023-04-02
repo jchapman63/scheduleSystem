@@ -1,13 +1,28 @@
+// import { useState, useEffect } from "react";
+
+import "./componentStyles/scheduleList.css";
 function ScheduleList(props) {
-  let schedules = props.schedules;
-
-  const scheduleNames = schedules.map((schedule, index) => {
-    return <li key={index}>{schedule.name}</li>;
-  });
-
+  const clicked = (id) => {
+    props.changeScheduleById(id);
+  };
   return (
     <div>
-      <ul>{scheduleNames}</ul>
+      <h2>Schedules</h2>
+      {props.schedules && props.schedules.length > 0 ? (
+        <ul className="schedules-list">
+          {props.schedules.map((schedule, index) => (
+            <li
+              onClick={() => clicked(schedule.id)}
+              className="schedule-item"
+              key={index}
+            >
+              {schedule.name}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No schedules found.</p>
+      )}
     </div>
   );
 }

@@ -35,3 +35,18 @@ td {
     width: 100%;
     height: calc(var(--height)*1%);
 }
+
+.flexer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.pencil {
+    font-size: 1.25rem;
+}
+
+.pencil:hover {
+    color:#d0d7de;
+    cursor: pointer;
+}

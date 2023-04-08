@@ -11,7 +11,7 @@ class Schedule {
   addCourse(course) {
     let doesExist = false;
     for (var i = 0; i < this.courses.length; i++) {
-      if (this.courses[i].courseCode === course.courseCode) {
+      if (this.courses[i].id === course.id) {
         doesExist = true;
         break;
       }
@@ -24,10 +24,13 @@ class Schedule {
   }
 
   removeCourse(course) {
-    const index = this.courses.indexOf(course);
-    if (index > -1) {
-      this.courses.splice(index, 1);
-    }
+    let i = 0;
+    this.courses.forEach((schedCourse) => {
+      if (schedCourse.id === course.id) {
+        this.courses.splice(i, 1);
+      }
+      i++;
+    });
   }
 
   // leaving out of "toObject" for now.  My hunch is that  I won't need it there.

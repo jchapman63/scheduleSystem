@@ -1,0 +1,83 @@
+.editor-container {
+    background-color: #252525;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 2rem;
+    width: 50%;
+    height: 50%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.inputs-holder {
+    position: relative;
+    width: 100%;
+}
+.header-input {
+    position: relative;
+    width: calc(100% - 20px);
+    padding: 0.5rem;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.course-edit-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.name-delete-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.fa-trash-can:hover {
+    cursor: pointer;
+}
+
+.course-boxes {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+}
+
+.box input {
+    margin-bottom: 0.5rem;
+}
+
+.box-1 {
+    margin-right: auto;
+}
+
+.divider {
+    height: 1px;
+    width: 100%;
+    background-color: white;
+}
+
+.schedule-options {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+    gap: 1rem;
+}
+
+.schedule-edit-btn {
+    width: 100px;
+    font-size: 0.75rem;
+}
+
+.schedule-edit-btn:hover {
+    cursor: pointer;
+}

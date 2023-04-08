@@ -1,0 +1,86 @@
+  // store edits here until submit
+  let edittedCourses = [];
+
+  // temporary course outline
+  let temporaryCourse = {
+    originalCourseName: "",
+    courseName: "",
+    courseCode: "",
+    sectionNumber: "",
+    creditHours: "",
+    meetFrequencies: "",
+    meetTime: "",
+    meetRoom: "",
+    professor: "",
+  };
+
+  // helper function to determine if a temporaryCourse object exists for some course in props
+  const hasBeenEdited = (courseName) => {
+    edittedCourses.forEach((course) => {
+      if (course.originalCourseName === courseName) {
+        return true;
+      }
+    });
+    return false;
+  };
+
+  // update the schedule
+  const handleSubmit = () => {
+    // close the menu
+    props.updateEditor();
+
+    if (edittedCourses.length > 0) {
+      console.log("edits were made");
+      edittedCourses.forEach((edittedCourse) => {
+        props.currentSchedule.courses.forEach((originalCourse) => {
+          for (const key in edittedCourse) {
+            if (
+              edittedCourse[key] !== "" &&
+              originalCourse.hasOwnProperty(key)
+            ) {
+              // update the course
+              originalCourse[key] = edittedCourse[key];
+            }
+          }
+        });
+      });
+      props.updateSchedule(props.currentSchedule.id, props.currentSchedule);
+    } else {
+      console.log("no edits were made");
+    }
+  };
+
+  const handleChange = (e) => {
+    // loop through courses, if the course matches with the one being edited, update that
+    // grab the name of course being edited
+    const originalCourseName = e.target.classList[0];
+
+    const attributeEdited = e.target.id;
+    console.log(attributeEdited);
+
+    // grab the new course edit
+    const newAttribute = e.target.value;
+
+    // FIND EDITED COURSE
+    props.currentSchedule.courses.forEach((course) => {
+      // grab the course being edited
+      if (course.courseName === originalCourseName) {
+        // create and push a new temporaryCourse if not yet edited
+        if (!hasBeenEdited(originalCourseName)) {
+          var newTempCourse = temporaryCourse;
+          newTempCourse.originalCourseName = originalCourseName;
+          edittedCourses.push(newTempCourse);
+        }
+
+        // apply edits
+        edittedCourses.forEach((course) => {
+          console.log(course.originalCourseName);
+          if (course.originalCourseName === originalCourseName) {
+            if (course.hasOwnProperty(attributeEdited)) {
+              course[attributeEdited] = newAttribute;
+            }
+          }
+        });
+      }
+    });
+  };

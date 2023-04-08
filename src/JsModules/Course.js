@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from "uuid";
+
 class Course {
   constructor(
     courseName,
@@ -17,6 +19,7 @@ class Course {
     this.meetTime = meetTime;
     this.meetRoom = meetRoom;
     this.professor = professor;
+    this.id = uuidv4();
   }
 
   updateCourseName(name) {
@@ -61,6 +64,7 @@ class Course {
       meetTime: this.meetTime,
       meetRoom: this.meetRoom,
       professor: this.professor,
+      id: this.id,
     };
   }
 }

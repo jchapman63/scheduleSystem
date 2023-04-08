@@ -104,15 +104,21 @@ class CourseFormatter {
     }
 
     // calculate differences
-    var hourDifference = (endHour - startHour) * 100;
+    var hourDifference = endHour - startHour;
+
     // console.log("endHour", endHour);
     // console.log("startHour", startHour);
     // console.log("hour difference", hourDifference);
+
     var minuteDifference = endMinutes - startMinutes;
     if (minuteDifference < 0) {
       minuteDifference += 60;
     }
     minuteDifference /= 60;
+
+    // console.log("endMinutes", endMinutes);
+    // console.log("startMinutes", startMinutes);
+    // console.log("minute difference", minuteDifference);
 
     const sizePercentage = (hourDifference + minuteDifference) * 100;
 

@@ -9,6 +9,7 @@ import AppModel from "../JsModules/AppModel";
 // components
 import Calendar from "./Calendar";
 import ScheduleList from "./ScheduleList";
+import EditSchedule from "./EditSchedule";
 
 // react modules
 import { useState, useEffect } from "react";
@@ -22,6 +23,9 @@ function Scheduler() {
 
   // updated after model is created
   const [isLoading, setIsLoading] = useState(true);
+
+  // show Schedule editing menu
+  const [showEditor, setShowEditor] = useState(false);
 
   // generate the model data on load
   useEffect(() => {
@@ -44,6 +48,11 @@ function Scheduler() {
     loadData();
   }, []);
 
+  // toggle the value (might set explicitly with a parameter)
+  const updateEditor = () => {
+    setShowEditor(!showEditor);
+  };
+
   // grab a schedule id to change state
   const changeScheduleById = (id) => {
     var newSchedule = app.getScheduleById(id);
@@ -56,13 +65,26 @@ function Scheduler() {
         <p>Loading...</p>
       ) : (
         <div className="scheduler-splitter">
-          <Calendar currentSchedule={currentSchedule} />
+          <Calendar
+            currentSchedule={currentSchedule}
+            updateEditor={updateEditor}
+          />
           <ScheduleList
             schedules={app.schedules}
             changeScheduleById={changeScheduleById}
           />
           <button onClick={app.logScheduleData}>generate data</button>
         </div>
+      )}
+
+      {showEditor ? (
+        <EditSchedule
+          currentSchedule={currentSchedule}
+          updateEditor={updateEditor}
+          updateSchedule={app.updateSchedule}
+        />
+      ) : (
+        <></>
       )}
     </div>
   );

@@ -1,13 +1,81 @@
+.title-add-container {
+    display: flex;
+    align-items: center;
+}
+
+.fa-plus {
+    margin-left: auto;
+    font-size: 1.25rem;
+}
+
+.fa-plus:hover {
+    cursor: pointer;
+    color: #4b4b4b;
+}
+
 ul {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.schedule-item {
+.schedule-name-delete {
+    display: flex;
+    align-items: center;
+    gap: 1rem
+}
 
+.schedule-item {
+    margin: 0.5rem 0;
 }
 
 .schedule-item:hover {
     cursor: pointer;
+    color: #4b4b4b;
+}
+
+.add-menu {
+    background-color: #252525;
+    display: flex;
+    flex-direction: column;
+    position:fixed;
+    padding: 1rem;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    height: 50%;
+    gap: 3rem;
+    overflow-y: scroll;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+}
+.input-container input {
+    width: 96%;
+    padding: 1rem 0.5rem;
+    font-size: 1.5rem ;
+}
+
+.add-menu h1 {
+    margin: 0;
+}
+
+.schedule-options-container {
+    display: flex;
+    justify-self: center;
+    align-self: center;
+    gap: 5rem;
+}
+
+.schedule-options-container button {
+    padding: 0.5rem 1rem;
+    font-size: 1.5rem;
+}
+
+.schedule-options-container button:hover {
+    cursor: pointer;
+    background-color: #4b4b4b;
 }

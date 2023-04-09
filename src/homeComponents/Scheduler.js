@@ -27,6 +27,9 @@ function Scheduler() {
   // show Schedule editing menu
   const [showEditor, setShowEditor] = useState(false);
 
+  // used to update UI on new schedule creation
+  const [scheduleCount, setScheduleCount] = useState(0);
+
   // generate the model data on load
   useEffect(() => {
     // asynchronous data collection from AppModel
@@ -40,13 +43,15 @@ function Scheduler() {
       // update state
       setApp(model);
 
-      // should probably change this later
-      // setCurrentSchedule(model.schedules[0]);
+      // loading is done
       setIsLoading(false);
+
+      // number of schedule in model
+      setScheduleCount(model.schedules.count);
     };
 
     loadData();
-  }, []);
+  }, [scheduleCount]);
 
   // toggle the value (might set explicitly with a parameter)
   const updateEditor = () => {
@@ -57,6 +62,18 @@ function Scheduler() {
   const changeScheduleById = (id) => {
     var newSchedule = app.getScheduleById(id);
     setCurrentSchedule(newSchedule);
+  };
+
+  // add a schedule to AppModel
+  const newSchedule = (schedule) => {
+    app.addSchedule(schedule);
+    setScheduleCount(scheduleCount + 1);
+  };
+
+  const removeSchedule = (id) => {
+    app.removeSchedule(id);
+    setScheduleCount(scheduleCount - 1);
+    setCurrentSchedule(null);
   };
 
   return (
@@ -72,6 +89,8 @@ function Scheduler() {
           <ScheduleList
             schedules={app.schedules}
             changeScheduleById={changeScheduleById}
+            addSchedule={newSchedule}
+            removeSchedule={removeSchedule}
           />
           <button onClick={app.logScheduleData}>generate data</button>
         </div>

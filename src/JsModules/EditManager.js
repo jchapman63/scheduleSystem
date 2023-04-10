@@ -1,4 +1,5 @@
 import Course from "./Course";
+import CourseFormatter from "./CourseFormatter";
 
 // handles edits done to courses in a schedule
 class EditManager {
@@ -51,15 +52,138 @@ class EditManager {
     return false;
   };
 
+  checkMeetFrequencies = (id) => {
+    // meetFrequencies ex = [M, W, F]
+    // implement, there must be a space between and one of M, T, W, Th, F
+    function capitalize(word) {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    }
+
+    const getInputsForId = document.getElementsByClassName(id);
+    let daysValue;
+    for (var i = 0; i < getInputsForId.length; i++) {
+      var element = getInputsForId[i];
+      if (element.id === "meetFrequencies") {
+        daysValue = element.value;
+      }
+    }
+
+    const validDays = ["M", "T", "W", "Th", "F"];
+    var meetFrequencies = daysValue.split(" ");
+    for (i = 0; i < meetFrequencies.length; i++) {
+      let capLetter = capitalize(meetFrequencies[i]);
+
+      if (validDays.includes(capLetter) === false) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  checkMeetTime = (id) => {
+    // implement, no time less than 6AM or greater than 6PM.  Start time cannot be smaller than end time
+    const getInputsForId = document.getElementsByClassName(id);
+
+    let timeString;
+    for (var i = 0; i < getInputsForId.length; i++) {
+      var element = getInputsForId[i];
+      if (element.id === "meetTime") {
+        timeString = element.value;
+      }
+    }
+
+    const startTime = timeString.slice(0, 5);
+    const endTime = timeString.slice(8, 13);
+
+    // make ints for startHour
+    if (startTime[0] === "0") {
+      var startHour = parseInt(startTime[1]);
+    } else {
+      startHour = parseInt(startTime.slice(0, 2));
+    }
+
+    // make ints for endHour
+    if (startTime[0] === "0") {
+      var endHour = parseInt(endTime[1]);
+    } else {
+      endHour = parseInt(endTime.slice(0, 2));
+    }
+
+    // convert
+    // convert to 24 hour time
+    if (timeString.slice(5, 6) === "P") {
+      startHour += 12;
+    }
+
+    if (timeString.slice(13, 14) === "P") {
+      endHour += 12;
+    }
+
+    // calculate differences
+    var hourDifference = endHour - startHour;
+
+    if (hourDifference < 0) {
+      return false;
+    }
+
+    return true;
+  };
+
+  checkEmpty = (id) => {
+    const getInputsForId = document.getElementsByClassName(id);
+    for (var i = 0; i < getInputsForId.length; i++) {
+      var element = getInputsForId[i];
+      if (
+        element.value === "" ||
+        element.value === undefined ||
+        element.value === null
+      ) {
+        return true;
+      }
+    }
+    return;
+  };
+
+  // determine if a course has all valid inputs
+  checkInputs = () => {
+    for (var i = 0; i < this.currentSchedule.courses.length; i++) {
+      for (const key in this.currentSchedule.courses[i]) {
+        if (key === "meetFrequencies") {
+          if (
+            this.checkMeetFrequencies(this.currentSchedule.courses[i].id) ===
+            false
+          ) {
+            return false;
+          }
+        } else if (key === "meetTime") {
+          if (
+            this.checkMeetTime(this.currentSchedule.courses[i].id) === false
+          ) {
+            return false;
+          }
+        } else {
+          if (this.checkEmpty(this.currentSchedule.courses[i].id) === true) {
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+  };
+
   // update the schedule
   handleSubmit = (props) => {
-    console.log(this.edittedCourses);
+    // only perform updates if edits were made
     if (this.edittedCourses.length > 0) {
-      console.log("edits were made");
+      // loop each edit
       this.edittedCourses.forEach((edittedCourse) => {
+        // loop original courses
         this.currentSchedule.courses.forEach((originalCourse) => {
+          // edits applied to matching ids
           if (edittedCourse.id === originalCourse.id) {
+            // apply edits via keys in edittedCourses
             for (const key in edittedCourse) {
+              // key must have been editted and exist in original course
               if (
                 edittedCourse[key] !== "" &&
                 originalCourse.hasOwnProperty(key)
@@ -75,8 +199,6 @@ class EditManager {
     } else {
       console.log("no edits were made");
     }
-
-    // close the menu
   };
 
   handleChange = (e) => {
@@ -88,18 +210,14 @@ class EditManager {
     } else {
       originalCourseId = "";
     }
-    // console.log("course name from classList", originalCourseName);
 
     const attributeEdited = e.target.id;
-    // console.log("target being editted", attributeEdited);
 
     // grab the new course edit
     const newAttribute = e.target.value;
-    // console.log(newAttribute);
 
     // FIND EDITED COURSE
     this.currentSchedule.courses.forEach((course) => {
-      //   console.log("name of course from list", course.courseName);
       // grab the course being edited
       if (course.id === originalCourseId) {
         // create and push a new this.temporaryCourse if not yet edited
@@ -111,11 +229,9 @@ class EditManager {
 
         // apply edits
         this.edittedCourses.forEach((course) => {
-          //   console.log(course.originalCourseName);
           if (course.id === originalCourseId) {
             if (course.hasOwnProperty(attributeEdited)) {
               course[attributeEdited] = newAttribute;
-              //   console.log(course.courseName, course[attributeEdited]);
             }
           }
         });

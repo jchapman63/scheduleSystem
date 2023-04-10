@@ -6,6 +6,7 @@ import Schedule from "../JsModules/Schedule";
 
 function ScheduleList(props) {
   const [showAdd, setShowAdd] = useState(false);
+  const [invalidInput, setInvalidInput] = useState(false);
 
   const updateAdd = () => {
     setShowAdd(!showAdd);
@@ -15,12 +16,26 @@ function ScheduleList(props) {
     props.changeScheduleById(id);
   };
 
-  const createNewSchedule = () => {
-    const name = document.getElementById("newSchedule").value;
+  const isValidSchedule = (name) => {
+    if (name === "" || name === undefined || name === null) {
+      return false;
+    }
+    return true;
+  };
 
-    const newSchedule = new Schedule(name, []);
-    props.addSchedule(newSchedule);
-    updateAdd();
+  const createNewSchedule = () => {
+    const inputElement = document.getElementById("newSchedule");
+    const name = inputElement.value;
+
+    let valid = isValidSchedule(name);
+    if (valid === true) {
+      const newSchedule = new Schedule(name, []);
+      props.addSchedule(newSchedule);
+      updateAdd();
+      setInvalidInput(false);
+    } else {
+      setInvalidInput(true);
+    }
   };
 
   const removeSchedule = (id) => {
@@ -66,10 +81,20 @@ function ScheduleList(props) {
             <label htmlFor="">Schedule Name</label>
             <br />
             <input id="newSchedule" type="text" />
+            <span className={invalidInput ? "warning-message" : "hidden"}>
+              invalid schedule name input
+            </span>
           </div>
 
           <div className="schedule-options-container">
-            <button onClick={updateAdd}>Cancel</button>
+            <button
+              onClick={() => {
+                setInvalidInput(false);
+                updateAdd();
+              }}
+            >
+              Cancel
+            </button>
             <button onClick={createNewSchedule}>Create</button>
           </div>
         </div>

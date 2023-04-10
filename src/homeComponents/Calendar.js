@@ -14,7 +14,7 @@ function Calendar(props) {
       if (props.currentSchedule.courses) {
         // eslint-disable-next-line array-callback-return
         props.currentSchedule.courses.map((course) => {
-          console.log("current course", course.courseName);
+          // console.log("current course", course.courseName);
           // initialize formatter object
           const courseFormatter = new CourseFormatter(course);
 

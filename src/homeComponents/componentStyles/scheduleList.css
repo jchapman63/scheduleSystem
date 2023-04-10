@@ -63,6 +63,15 @@ ul {
     margin: 0;
 }
 
+.warning-message {
+    color: red;
+    margin-top: 0.25rem;
+}
+
+.hidden {
+    display: none;
+}
+
 .schedule-options-container {
     display: flex;
     justify-self: center;

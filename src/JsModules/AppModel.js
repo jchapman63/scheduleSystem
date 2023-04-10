@@ -83,7 +83,7 @@ class AppModel {
     scheduleRef
       .set(schedule.toObject())
       .then(() => {
-        console.log("successfully updated schedule");
+        // console.log("successfully updated schedule");
 
         // update AppModel
         for (var i = 0; i < this.schedules.length; i++) {

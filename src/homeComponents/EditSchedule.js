@@ -1,9 +1,7 @@
-import Course from "../JsModules/Course";
-import Schedule from "../JsModules/Schedule";
 import "./componentStyles/editSchedule.css";
 
 import EditManager from "../JsModules/EditManager";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 // what's in props?
 // props.app : the app model responsible for creating, updating, and deleting scheduels
@@ -144,8 +142,14 @@ function EditSchedule(props) {
             </button>
             <button
               onClick={() => {
-                editManager.handleSubmit(props);
-                props.updateEditor();
+                var isValid = editManager.checkInputs();
+                if (isValid === true) {
+                  editManager.handleSubmit(props);
+                  props.updateEditor();
+                  alert("inputs were valid!");
+                } else {
+                  alert("inputs were invalid!");
+                }
               }}
               className="schedule-edit-btn"
             >
